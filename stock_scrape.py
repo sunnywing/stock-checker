@@ -1,4 +1,4 @@
-from selenium.webdriver import Chrome
+from selenium.webdriver import Chrome #next step let's scrape brand name and model number from bb and ne
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 opts = Options()
@@ -45,8 +45,23 @@ with open('C:/Users/pluhm/Documents/graphics_links.txt', 'r') as f:
                 
             except:
                 status = "OUT OF STOCK"
+
+            html = browser.page_source
+            soup = BeautifulSoup(html, 'html.parser')
+            brand_search = soup.find_all("tr")
+            for i in brand_search:
+                if "Brand" in i.text:
+                    brand = i.text.strip("Brand ")
+
+                if "Model" in i.text:
+                    model = i.text.strip("Model ")
+            
+                    
+                
+
             print("********" + title + "********")
-            print(price)
-            print(status)
-        
+            print("Price: " + price)
+            print("Availability: " + status)
+            print("Brand: " + brand)
+            print("Model: " + model)
 browser.quit()
